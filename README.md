@@ -39,7 +39,7 @@ Install-Package SecureApiKeys
 ### Basic Usage
 
 ```csharp
-// Create with default options - produces keys like "sk_v1_abc123_eRt5TyUiOp..."
+// Create with default options - produces keys like "sk_v1_abc123_ABCdef8ghIJklm9"
 var generator = new SecureApiKeyGenerator();
 
 // Generate a single API key
@@ -104,7 +104,7 @@ var options = new ApiKeyOptions
     // Delimiter character between sections (default: '_')
     Delimiter = '-',
     
-    // Base64 URL-safe character replacements (default: '-' and '.')
+    // Base64 URL-safe character replacements (default: '8' and '9')
     PlusReplacement = '_',
     SlashReplacement = '~'
 };
@@ -129,6 +129,8 @@ sk_v1_abc123_eRt5TyUiOpAsDfGhJkLzXcVbNm12345...
 │
 └─ Prefix (identifies key type, e.g., "sk" for secret key)
 ```
+
+For example, a generated key might look like: `sk_v1_123456_ABCdef8ghIJklm9`
 
 This structure follows industry best practices:
 - **Prefix**: Identifies the key type (e.g., Stripe uses "sk_" for secret keys, "pk_" for publishable keys)

@@ -18,8 +18,8 @@ public class ApiKeyOptionsTests
         Assert.Equal(32, options.SecretBytes);
         Assert.Equal(4, options.PrefixBytes);
         Assert.Equal(6, options.UniqueIdLength);
-        Assert.Equal('-', options.PlusReplacement);
-        Assert.Equal('.', options.SlashReplacement);
+        Assert.Equal('8', options.PlusReplacement);
+        Assert.Equal('9', options.SlashReplacement);
         Assert.Equal('_', options.Delimiter);
     }
 
@@ -184,7 +184,7 @@ public class ApiKeyOptionsTests
         // Arrange
         var options = new ApiKeyOptions
         {
-            Delimiter = '-',  // Same as default PlusReplacement
+            Delimiter = '8',  // Same as default PlusReplacement
         };
             
         // Act & Assert
@@ -279,7 +279,7 @@ public class SecureApiKeyGeneratorTests
             
         // Assert
         Assert.NotNull(key);
-        Assert.Matches(@"^sk_v1_[A-Za-z0-9\-\.]{6}_[A-Za-z0-9\-\.]+$", key);
+        Assert.Matches(@"^sk_v1_[A-Za-z0-9\-89]{6}_[A-Za-z0-9\-89]+$", key);
         Assert.True(generator.ValidateKeyFormat(key));
     }
 
@@ -379,6 +379,33 @@ public class SecureApiKeyGeneratorTests
             
         // Assert
         Assert.Equal(count, keys.Count); // All keys should be unique
+    }
+
+    [Fact]
+    public void GenerateApiKey_WithDefaultOptions_HasCorrectPartLengths()
+    {
+        // Arrange
+        var generator = new SecureApiKeyGenerator();
+            
+        // Act
+        var key = generator.GenerateApiKey();
+        var parts = key.Split('_');
+            
+        // Assert
+        Assert.Equal(4, parts.Length);
+        Assert.Equal("sk", parts[0]);
+        Assert.Equal("v1", parts[1]);
+        Assert.Equal(6, parts[2].Length); // Default UniqueIdLength is 6
+            
+        // Calculate expected secret length based on default SecretBytes (32)
+        var testBytes = new byte[32];
+        var expectedSecretLength = Convert.ToBase64String(testBytes)
+            .Replace("+", "8")
+            .Replace("/", "9")
+            .TrimEnd('=')
+            .Length;
+            
+        Assert.Equal(expectedSecretLength, parts[3].Length);
     }
 
     #endregion
@@ -698,7 +725,7 @@ public class SecureApiKeyGeneratorTests
     #endregion
 
     [Theory]
-    [InlineData('_', '-', '.')]  // Default configuration
+    [InlineData('_', '8', '9')]  // Default configuration
     [InlineData('|', '*', '^')]  // Custom configuration 1
     [InlineData(':', '~', '!')]  // Custom configuration 2
     public void Constructor_WithValidDelimiterOptions_CreatesInstance(char delimiter, char plusReplacement, char slashReplacement)

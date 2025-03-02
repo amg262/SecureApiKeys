@@ -42,15 +42,15 @@ public class ApiKeyOptions
 
     /// <summary>
     /// Character used to replace '+' in Base64 encoding for URL safety.
-    /// Default: '-' (following RFC 4648)
+    /// Default: '8' (modified from standard '-' for better visual consistency)
     /// </summary>
-    public char PlusReplacement { get; set; } = '-';
+    public char PlusReplacement { get; set; } = '8';
 
     /// <summary>
     /// Character used to replace '/' in Base64 encoding for URL safety.
-    /// Default: '.' (modified from standard '_' for easier reading)
+    /// Default: '9' (modified from standard '_' for better visual consistency)
     /// </summary>
-    public char SlashReplacement { get; set; } = '.';
+    public char SlashReplacement { get; set; } = '9';
 
     /// <summary>
     /// Delimiter used between parts of the API key.
