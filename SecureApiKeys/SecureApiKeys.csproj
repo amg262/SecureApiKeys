@@ -8,7 +8,7 @@
 
     <PropertyGroup>
         <PackageId>SecureApiKeys</PackageId>
-        <Version>1.0.3</Version>
+        <Version>1.0.4</Version>
         <Authors>Andrew Gunn</Authors>
         <Company>Milwaukee Software LLC</Company>
         <Description>A robust, production-ready .NET library for generating cryptographically secure API keys with customizable formatting. Built with security best practices and flexibility in mind.</Description>

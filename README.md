@@ -417,30 +417,6 @@ Configuration:
   • Plus Replacement: '*'
   • Slash Replacement: '
 
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to open issues or submit pull requests.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📚 Additional Resources
-
-- [ASP.NET Core API Key Authentication](https://docs.microsoft.com/en-us/aspnet/core/security/authentication)
-- [OWASP API Security Top 10](https://owasp.org/www-project-api-security/)
-- [NIST Recommendations for Key Management](https://csrc.nist.gov/publications/detail/sp/800-57-part-1/rev-5/final)
-
----
-
-Built with ❤️ for the .NET community. If you find SecureApiKeys useful, please consider giving it a star on GitHub!
-
 Generated Key:
   secure-v2-Y2pwUFpYMVdtUE4-NXFXaWdpQmZxUVhNQkZBQ0RqM3JuMUloamprRGR0ZGFTWVRxYUkwTzd1c3NHaDkzWlQ
 
