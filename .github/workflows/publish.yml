@@ -1,67 +1,69 @@
-name: Publish Package
+name: Publish NuGet Package
 
 on:
   release:
     types: [published]
+  # Optional: Add manual trigger for testing
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Important for SourceLink
+      
+      - name: List directory structure
+        run: |
+          echo "Current directory: $(pwd)"
+          ls -la
+          echo "Root directory contents:"
+          find . -maxdepth 2 -type d | sort
+      
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.x
       
-      # Add GitHub Packages source
-      - name: Setup NuGet for GitHub Packages
+      - name: Display environment info
         run: |
-          dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
-
+          echo "GitHub Ref: ${{ github.ref }}"
+          echo "Release Tag: ${{ github.event.release.tag_name }}"
+          dotnet --info
+          if [ -f "SecureApiKeys/SecureApiKeys.csproj" ]; then
+            echo "Project file exists at SecureApiKeys/SecureApiKeys.csproj"
+            cat SecureApiKeys/SecureApiKeys.csproj | grep -E "<Version>|<PackageVersion>"
+          else
+            echo "ERROR: Project file not found at SecureApiKeys/SecureApiKeys.csproj"
+            echo "Searching for project file:"
+            find . -name "*.csproj" | sort
+          fi
+      
       - name: Restore dependencies
         run: dotnet restore
-
+      
       - name: Build
         run: dotnet build --no-restore -c Release
-
+      
       - name: Test
         run: dotnet test --no-build --verbosity normal -c Release
-
+      
       - name: Pack
-        run: dotnet pack --no-build -c Release src/SecureApiKeys/SecureApiKeys.csproj -o artifacts
+        run: |
+          # Use absolute path to be sure
+          PROJECT_PATH="$(pwd)/SecureApiKeys/SecureApiKeys.csproj"
+          echo "Using project path: $PROJECT_PATH"
+          if [ -f "$PROJECT_PATH" ]; then
+            dotnet pack --no-build -c Release "$PROJECT_PATH" -o artifacts
+          else
+            echo "ERROR: Project file not found at $PROJECT_PATH"
+            exit 1
+          fi
       
-      # First publish to GitHub Packages
-      - name: Push to GitHub Packages
-        run: dotnet nuget push ./artifacts/*.nupkg --source github --api-key ${{ secrets.GITHUB_TOKEN }}
+      - name: List package files
+        run: ls -la artifacts/
       
-      # Then publish to NuGet.org
       - name: Push to NuGet
-        run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
-#name: Publish NuGet Package
-#
-#on:
-#  release:
-#    types: [published]
-#
-#jobs:
-#  build:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0 # Important for SourceLink
-#      - name: Setup .NET
-#        uses: actions/setup-dotnet@v4
-#        with:
-#          dotnet-version: 9.0.x
-#      - name: Restore dependencies
-#        run: dotnet restore
-#      - name: Build
-#        run: dotnet build --no-restore -c Release
-#      - name: Test
-#        run: dotnet test --no-build --verbosity normal -c Release
-#      - name: Pack
-#        run: dotnet pack --no-build -c Release SecureApiKeys/SecureApiKeys.csproj -o artifacts
-#      - name: Push to NuGet
-#        run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
