@@ -299,6 +299,141 @@ public class KeyManagementService
 }
 ```
 
+## 🎮 Sample Application
+
+The library includes a complete sample console application that demonstrates all the key features and use cases. Here's what the sample application demonstrates:
+
+### Running the Sample
+
+```bash
+# Navigate to the sample directory
+cd sample
+
+# Run the sample
+dotnet run
+```
+
+### What it Demonstrates
+
+The sample showcases several key configurations and use cases:
+
+1. Default API Key Configuration
+2. Stripe-like API Key Configuration
+3. GitHub PAT-like Token Configuration
+4. High-Security Configuration
+5. Dependency Injection Configuration
+6. Validation and Edge Cases
+7. Security Utilities (hashing and secure comparison)
+
+### Sample Output
+
+When you run the sample, you'll see demonstrations of each configuration with generated keys, their structure, and estimated entropy:
+
+```
+SecureApiKeys Sample Application
+================================
+
+1. Default API Key Configuration
+----------------------------------
+Configuration:
+  • Prefix: "sk"
+  • Version: "v1"
+  • Secret Bytes: 32
+  • Prefix Bytes: 4
+  • Unique ID Length: 6
+  • Delimiter: '_'
+  • Plus Replacement: '8'
+  • Slash Replacement: '9'
+
+Generated Key:
+  sk_v1_b2ZpY1_RFNMbTNLVzRyM3ZOVHVvUlZ1MkZiYmxNYW9ZNGVSclV3T1JOYg
+
+Key Structure:
+  Prefix:    sk
+  Version:   v1
+  Unique ID: b2ZpY1
+  Secret:    RFNMbTNLVzRyM3ZOVHVvUlZ1MkZiYmxNYW9ZNGVSclV3T1JOYg
+
+Estimated Entropy: ~252.0 bits
+```
+
+### Code Example from the Sample
+
+Here's an example of key structure visualization from the sample:
+
+```csharp
+static void VisualizeKeyStructure(string apiKey)
+{
+    // First, determine the delimiter
+    char delimiter = '_'; // Default
+    foreach (var possibleDelimiter in new[] { '_', '-', '.', ':', '^', '*' })
+    {
+        if (apiKey.Contains(possibleDelimiter))
+        {
+            delimiter = possibleDelimiter;
+            break;
+        }
+    }
+    
+    var parts = apiKey.Split(delimiter);
+    if (parts.Length == 4)
+    {
+        Console.WriteLine("\nKey Structure:");
+        Console.WriteLine($"  Prefix:    {parts[0]}");
+        Console.WriteLine($"  Version:   {parts[1]}");
+        Console.WriteLine($"  Unique ID: {parts[2]}");
+        Console.WriteLine($"  Secret:    {parts[3]}");
+        
+        // Calculate entropy
+        double prefixEntropy = parts[2].Length * Math.Log(64) / Math.Log(2);
+        double secretEntropy = parts[3].Length * Math.Log(64) / Math.Log(2);
+        double totalEntropy = prefixEntropy + secretEntropy;
+        
+        Console.WriteLine($"\nEstimated Entropy: ~{totalEntropy:F1} bits");
+    }
+}
+```
+
+### Custom API Key Configurations
+
+The sample demonstrates various configurations, including this high-security example:
+
+```csharp
+// High-Security Configuration
+var secureOptions = new ApiKeyOptions
+{
+    Prefix = "secure",
+    Version = "v2",
+    SecretBytes = 48,  // More entropy
+    PrefixBytes = 8,
+    UniqueIdLength = 12,
+    PlusReplacement = '*',
+    SlashReplacement = '$',
+    Delimiter = '-'
+};
+
+var generator = new SecureApiKeyGenerator(secureOptions);
+var secureKey = generator.GenerateApiKey();
+// Result: secure-v2-a1b2c3d4e5f6-HjKl*nOpQr$tUvWxYz...
+```
+
+### Security Utilities Demo
+
+The sample also demonstrates security utilities such as secure comparison and hashing:
+
+```csharp
+// API Key Hashing Test
+var keyToHash = generator.GenerateApiKey();
+var hashedKey = SecureApiKeyGenerator.HashApiKey(keyToHash);
+
+Console.WriteLine($"Original Key:        {keyToHash}");
+Console.WriteLine($"Hashed Key (Base64): {hashedKey}");
+
+// Demonstrate hashing the same key always produces the same result
+var hashedKeyAgain = SecureApiKeyGenerator.HashApiKey(keyToHash);
+Console.WriteLine($"Hash consistency:    {(hashedKey == hashedKeyAgain ? "✓ CONSISTENT" : "✗ INCONSISTENT")}");
+```
+
 ## 📝 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
