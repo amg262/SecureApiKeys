@@ -14,10 +14,10 @@ jobs:
         with:
           dotnet-version: 9.0.x
       
-      # Add GitHub Packages source
+      # Use the renamed secret
       - name: Setup NuGet for GitHub Packages
         run: |
-          dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+          dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.PAT_GITHUB_PACKAGES }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
 
       - name: Restore dependencies
         run: dotnet restore
@@ -31,9 +31,9 @@ jobs:
       - name: Pack
         run: dotnet pack --no-build -c Release SecureApiKeys/SecureApiKeys.csproj -o artifacts
       
-      # First publish to GitHub Packages
+      # Use the renamed secret for publishing too
       - name: Push to GitHub Packages
-        run: dotnet nuget push ./artifacts/*.nupkg --source github --api-key ${{ secrets.GITHUB_TOKEN }}
+        run: dotnet nuget push ./artifacts/*.nupkg --source github --api-key ${{ secrets.PAT_GITHUB_PACKAGES }}
       
       # Then publish to NuGet.org
       - name: Push to NuGet
