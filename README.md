@@ -2,7 +2,7 @@
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![.NET](https://img.shields.io/badge/.NET-9.0-512BD4)
-![Version](https://img.shields.io/badge/version-1.0.0-brightgreen)
+![Version](https://img.shields.io/badge/version-1.0.3-brightgreen)
 
 ![NuGet](https://img.shields.io/nuget/v/SecureApiKeys)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/amg262/SecureApiKeys/publish.yml)
