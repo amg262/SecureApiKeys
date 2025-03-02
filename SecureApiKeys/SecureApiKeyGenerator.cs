@@ -32,8 +32,15 @@ public class SecureApiKeyGenerator
     /// Initializes a new instance of the <see cref="SecureApiKeyGenerator"/> class with options from the DI container.
     /// </summary>
     /// <param name="options">The options from the application configuration.</param>
-    public SecureApiKeyGenerator(IOptions<ApiKeyOptions> options) : this(options?.Value ?? new ApiKeyOptions())
+    public SecureApiKeyGenerator(IOptions<ApiKeyOptions> options)
     {
+        if (options == null)
+        {
+            throw new ArgumentNullException(nameof(options));
+        }
+        
+        _options = options.Value ?? throw new ArgumentNullException(nameof(options.Value));
+        _options.Validate();
     }
 
     /// <summary>
@@ -52,6 +59,7 @@ public class SecureApiKeyGenerator
             var uniquePrefix = Convert.ToBase64String(prefixBytes)
                 .Replace("+", _options.PlusReplacement.ToString())
                 .Replace("/", _options.SlashReplacement.ToString())
+                .Replace(_options.Delimiter.ToString(), _options.PlusReplacement.ToString()) // Replace delimiter in encoded string
                 .TrimEnd('=');
 
             // Ensure we have enough characters for the unique ID
@@ -67,6 +75,7 @@ public class SecureApiKeyGenerator
             var secret = Convert.ToBase64String(secretBytes)
                 .Replace("+", _options.PlusReplacement.ToString())
                 .Replace("/", _options.SlashReplacement.ToString())
+                .Replace(_options.Delimiter.ToString(), _options.PlusReplacement.ToString()) // Replace delimiter in encoded string
                 .TrimEnd('=');
 
             // Combine all parts using the configured delimiter
@@ -85,7 +94,8 @@ public class SecureApiKeyGenerator
     {
         if (string.IsNullOrWhiteSpace(apiKey)) return false;
 
-        var parts = apiKey.Split(_options.Delimiter);
+        // Use the same array syntax as in the test
+        var parts = apiKey.Split([_options.Delimiter], StringSplitOptions.None);
         if (parts.Length != 4) return false;
         if (parts[0] != _options.Prefix) return false;
         if (parts[1] != _options.Version) return false;

@@ -61,7 +61,7 @@ public class ApiKeyOptions
     /// <summary>
     /// Validates that the options are in a consistent state.
     /// </summary>
-    internal void Validate()
+    public void Validate()
     {
         if (string.IsNullOrWhiteSpace(Prefix))
         {
@@ -86,6 +86,33 @@ public class ApiKeyOptions
         if (UniqueIdLength < 4)
         {
             throw new ArgumentException("UniqueIdLength must be at least 4 characters", nameof(UniqueIdLength));
+        }
+        
+        // Prevent using '+' as a replacement character or delimiter
+        if (PlusReplacement == '+')
+        {
+            throw new ArgumentException("'+' cannot be used as a replacement character as it's a special character in Base64", nameof(PlusReplacement));
+        }
+        
+        if (SlashReplacement == '+')
+        {
+            throw new ArgumentException("'+' cannot be used as a replacement character as it's a special character in Base64", nameof(SlashReplacement));
+        }
+        
+        if (Delimiter == '+')
+        {
+            throw new ArgumentException("'+' cannot be used as a delimiter as it causes issues with string splitting", nameof(Delimiter));
+        }
+        
+        // Ensure delimiter is different from replacement characters
+        if (Delimiter == PlusReplacement)
+        {
+            throw new ArgumentException("Delimiter cannot be the same as PlusReplacement character", nameof(Delimiter));
+        }
+        
+        if (Delimiter == SlashReplacement)
+        {
+            throw new ArgumentException("Delimiter cannot be the same as SlashReplacement character", nameof(Delimiter));
         }
     }
 }
