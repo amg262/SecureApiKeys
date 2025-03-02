@@ -6,7 +6,30 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <PackageId>SecureApiKeys</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>Andrew Gunn</Authors>
+        <Company>Milwaukee Software LLC</Company>
+        <Description>A robust, production-ready .NET library for generating cryptographically secure API keys with customizable formatting. Built with security best practices and flexibility in mind.</Description>
+        <PackageTags>api;security;keys;authentication</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/amg262/SecureApiKeys</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/amg262/SecureApiKeys</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageIcon>icon.png</PackageIcon>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <Deterministic>true</Deterministic>
+        <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+    </PropertyGroup>
+
     <ItemGroup>
+      <None Include="..\README.md" Pack="true" PackagePath="\" />
+      <None Include="..\icon.png" Pack="true" PackagePath="\" Condition="Exists('..\icon.png')" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.2" />
       <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.2" />
       <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
