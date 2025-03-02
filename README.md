@@ -301,7 +301,7 @@ public class KeyManagementService
 
 ## 🎮 Sample Application
 
-The library includes a complete sample console application that demonstrates all the key features and use cases. Here's what the sample application demonstrates:
+The library includes a complete sample console application that demonstrates all the key features and use cases. When run, it outputs detailed information about different key configurations, generated examples, and security features.
 
 ### Running the Sample
 
@@ -313,21 +313,9 @@ cd sample
 dotnet run
 ```
 
-### What it Demonstrates
+### Sample Program Output
 
-The sample showcases several key configurations and use cases:
-
-1. Default API Key Configuration
-2. Stripe-like API Key Configuration
-3. GitHub PAT-like Token Configuration
-4. High-Security Configuration
-5. Dependency Injection Configuration
-6. Validation and Edge Cases
-7. Security Utilities (hashing and secure comparison)
-
-### Sample Output
-
-When you run the sample, you'll see demonstrations of each configuration with generated keys, their structure, and estimated entropy:
+When you run the sample application, you'll see the following comprehensive demonstration of various API key configurations and utilities:
 
 ```
 SecureApiKeys Sample Application
@@ -355,11 +343,228 @@ Key Structure:
   Secret:    RFNMbTNLVzRyM3ZOVHVvUlZ1MkZiYmxNYW9ZNGVSclV3T1JOYg
 
 Estimated Entropy: ~252.0 bits
+
+Multiple Key Generation (3 keys):
+  sk_v1_aGV0eU_RjlmRVhqdlJuY1BDYnFCNEF1ZmdXVkhQdVhlQXVyQW84ZVpSeg
+  sk_v1_ODRseG_UGFpZ05qS3htRmFrV3pZaVl3SHF2U2NqY2ZSc2RsbVViSXdkZw
+  sk_v1_NnZvZG_MTU3ZExPb0V5UlJ0YXhiQk9UY2RJd3NUQzJGU1ZqWmJRRE5KZw
+
+2. Stripe-like API Key Configuration
+------------------------------------
+Configuration:
+  • Prefix: "sk_test"
+  • Version: "v1"
+  • Secret Bytes: 24
+  • Prefix Bytes: 4
+  • Unique ID Length: 8
+  • Delimiter: '_'
+  • Plus Replacement: '8'
+  • Slash Replacement: '9'
+
+Generated Key:
+  sk_test_v1_TkVzMUxSQW9_YVNyU2g0bWdxWU5ZNWVLbEtkbVVFcw
+
+Key Structure:
+  Prefix:    sk_test
+  Version:   v1
+  Unique ID: TkVzMUxSQW9
+  Secret:    YVNyU2g0bWdxWU5ZNWVLbEtkbVVFcw
+
+Estimated Entropy: ~207.4 bits
+
+Multiple Key Generation (3 keys):
+  sk_test_v1_Y1ZaWnB2VGU_d1c0TG9mQ0d0MmIwZnZiWlJYUzlZdzQ
+  sk_test_v1_eXVBQmRIaWk_YzNlM0lRUXBNTXlnb0FQdm9YNTBJbXM
+  sk_test_v1_NXBuMXJaT2E_dG1TZ051d2FzU1dmZG1DVmdKWDJpekw
+
+3. GitHub PAT-like Token Configuration
+---------------------------------------
+Configuration:
+  • Prefix: "ghp"
+  • Version: "v1"
+  • Secret Bytes: 36
+  • Prefix Bytes: 4
+  • Unique ID Length: 10
+  • Delimiter: '_'
+  • Plus Replacement: 'A'
+  • Slash Replacement: 'B'
+
+Generated Key:
+  ghp_v1_dXJZaGVUQnYx_1pBbjFXeGU0dm5TMTNwUGdoVnRiZ1JKcGFVUmR0VjZBOUxJaDE
+
+Key Structure:
+  Prefix:    ghp
+  Version:   v1
+  Unique ID: dXJZaGVUQnYx
+  Secret:    1pBbjFXeGU0dm5TMTNwUGdoVnRiZ1JKcGFVUmR0VjZBOUxJaDE
+
+Estimated Entropy: ~297.8 bits
+
+Multiple Key Generation (3 keys):
+  ghp_v1_eVZTSWRpOGtp_TldIVFhBa1c2Q0MzMVlTb1hwV1JvWUlOcEZUekJCMUFhbmkxa25I
+  ghp_v1_YzRra05WN3Nn_NGJxbGZOZDdmNEF6cVcxRktyWjJIazlEME9zOTRlTDBKeUJBMkVs
+  ghp_v1_SnEwVW9zbndo_ZldDbVFBTUJjbmJJdmFLdWJpYjF5QkdMS2RNOWtScENIWUFtaDdL
+
+4. High-Security Configuration
+------------------------------
+Configuration:
+  • Prefix: "secure"
+  • Version: "v2"
+  • Secret Bytes: 48
+  • Prefix Bytes: 8
+  • Unique ID Length: 12
+  • Delimiter: '-'
+  • Plus Replacement: '*'
+  • Slash Replacement: '
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to open issues or submit pull requests.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📚 Additional Resources
+
+- [ASP.NET Core API Key Authentication](https://docs.microsoft.com/en-us/aspnet/core/security/authentication)
+- [OWASP API Security Top 10](https://owasp.org/www-project-api-security/)
+- [NIST Recommendations for Key Management](https://csrc.nist.gov/publications/detail/sp/800-57-part-1/rev-5/final)
+
+---
+
+Built with ❤️ for the .NET community. If you find SecureApiKeys useful, please consider giving it a star on GitHub!
+
+Generated Key:
+  secure-v2-Y2pwUFpYMVdtUE4-NXFXaWdpQmZxUVhNQkZBQ0RqM3JuMUloamprRGR0ZGFTWVRxYUkwTzd1c3NHaDkzWlQ
+
+Key Structure:
+  Prefix:    secure
+  Version:   v2
+  Unique ID: Y2pwUFpYMVdtUE4
+  Secret:    NXFXaWdpQmZxUVhNQkZBQ0RqM3JuMUloamprRGR0ZGFTWVRxYUkwTzd1c3NHaDkzWlQ
+
+Estimated Entropy: ~396.0 bits
+
+Multiple Key Generation (3 keys):
+  secure-v2-VjZvdHRITURSQVM-a1lLZkg4MHorUVhGa2RxbWN6YW4qQlJkckVyVGpCQlRVYjNYbVFTNDhxYVhFY2gzSjE
+  secure-v2-cHFBdGVIOUV3emw-a1BjMm42RDlHY1JPajVOZm1VS1VmdjJDS1FwdnlrelpJYjZ0T1laQVFCYWh4NHdUTjY
+  secure-v2-MHYwb2w2R1JkaFc-ZlNXbjM1NTVlZGNoeldpOVl3dzJXSnN6V0dXN29CZkFLSEpoeVVwOHlQUlhHcnBkbWo
+
+5. Dependency Injection Configuration
+-------------------------------------
+Generated Key:
+  di:v3:123456:hOSlmpgplTpyGK2AWgQNHA
+
+Key Structure:
+  Prefix:    di
+  Version:   v3
+  Unique ID: 123456
+  Secret:    hOSlmpgplTpyGK2AWgQNHA
+
+Estimated Entropy: ~137.0 bits
+
+Multiple Key Generation (3 keys):
+  di:v3:123456:vjGFQIkFm7K9Zu71RQw8SA
+  di:v3:123456:RLPdwJKTXtcw7kkMScgRJg
+  di:v3:123456:MV9N0vY6vl6X0L6VK8NWDQ
+
+6. Validation and Edge Cases
+----------------------------
+Valid Key: sk_v1_123456_VkY2lvc3BnRXJmOVpVQ2QyNnp4THpJSENwWEllVU1KNkFxZWQzMWZKQQ
+Validates as: ✓ VALID
+
+Invalid Key Tests:
+  Null key validates as: ✗ INVALID (Expected: INVALID)
+  Empty key validates as: ✗ INVALID (Expected: INVALID)
+  Wrong prefix key: xx_v1_123456_VkY2lvc3BnRXJmOVpVQ2QyNnp4THpJSENwWEllVU1KNkFxZWQzMWZKQQ
+  Validates as: ✗ INVALID (Expected: INVALID)
+  Wrong version key: sk_v2_123456_VkY2lvc3BnRXJmOVpVQ2QyNnp4THpJSENwWEllVU1KNkFxZWQzMWZKQQ
+  Validates as: ✗ INVALID (Expected: INVALID)
+  Wrong length key: sk_v1_123456_VkY2lvc3BnRXJmOVpVQ2QyNnp4THpJSENwWEllVU1KNkFxZWQzMWZKQQextra
+  Validates as: ✗ INVALID (Expected: INVALID)
+
+Invalid Options Tests:
+  ✓ SUCCESS: Caught expected exception: SecretBytes must be at least 16 (128 bits) for adequate security
+  ✓ SUCCESS: Caught expected exception: '+' cannot be used as a delimiter as it causes issues with string splitting
+
+7. Security Utilities
+---------------------
+Secure Comparison Test:
+Original Key:  sk_v1_123456_VkY2lvc3BnRXJmOVpVQ2QyNnp4THpJSENwWEllVU1KNkFxZWQzMWZKQQ
+Same Key:      sk_v1_123456_VkY2lvc3BnRXJmOVpVQ2QyNnp4THpJSENwWEllVU1KNkFxZWQzMWZKQQ
+Different Key: sk_v1_123456_ZXJpUDhSbkZwbUcwQUNJV3EwM0hlYW00V2djYXFTclpHemM4YXVkb2Q
+Same keys comparison result: ✓ MATCH (Expected: MATCH)
+Different keys comparison result: ✗ NO MATCH (Expected: NO MATCH)
+
+API Key Hashing Test:
+Original Key:        sk_v1_123456_VkY2lvc3BnRXJmOVpVQ2QyNnp4THpJSENwWEllVU1KNkFxZWQzMWZKQQ
+Hashed Key (Base64): j0BCsdg9nS8Ygdj4ityKP7XPwUBJJRuFkoRKClMoImA=
+Hashed Again:        j0BCsdg9nS8Ygdj4ityKP7XPwUBJJRuFkoRKClMoImA=
+Hash consistency:    ✓ CONSISTENT (Expected: CONSISTENT)
+Different Key Hash:  ezT45/sYjh9BZP/Pu4jGaXpch9KXvULO7jBL13/Z1VQ=
+Hash uniqueness:     ✓ UNIQUE (Expected: UNIQUE)
+
+All tests completed successfully!
 ```
 
-### Code Example from the Sample
+### Industry-Standard Key Format Examples
 
-Here's an example of key structure visualization from the sample:
+#### Stripe-like API Keys
+
+The sample demonstrates how to configure the library to produce API keys that follow Stripe's format pattern:
+
+```csharp
+// Stripe-like API Key Configuration
+var stripeOptions = new ApiKeyOptions
+{
+    Prefix = "sk_test",      // Stripe uses "sk_test" and "sk_live"
+    Version = "v1",
+    SecretBytes = 24,        // Lower entropy similar to Stripe
+    UniqueIdLength = 8,      // Longer unique ID
+    Delimiter = '_'          // Same delimiter as Stripe
+};
+
+var generator = new SecureApiKeyGenerator(stripeOptions);
+var stripeStyleKey = generator.GenerateApiKey();
+// Result: sk_test_v1_TkVzMUxSQW9_YVNyU2g0bWdxWU5ZNWVLbEtkbVVFcw
+```
+
+Stripe uses API keys in formats like `sk_test_51NrABC...` and `sk_live_51NrABC...` to distinguish between test and live environments. The SecureApiKeys library allows you to create the same pattern by customizing the prefix and other options.
+
+#### GitHub Personal Access Token-like Keys
+
+GitHub uses a different pattern for their Personal Access Tokens (PATs), which the library can also emulate:
+
+```csharp
+// GitHub PAT-like Token Configuration
+var githubOptions = new ApiKeyOptions
+{
+    Prefix = "ghp",          // GitHub uses "ghp_" prefix for PATs
+    Version = "v1",
+    SecretBytes = 36,        // Higher entropy similar to GitHub
+    UniqueIdLength = 10,     // Longer unique ID
+    Delimiter = '_',
+    PlusReplacement = 'A',   // Custom replacements for Base64 special chars
+    SlashReplacement = 'B'
+};
+
+var generator = new SecureApiKeyGenerator(githubOptions);
+var githubStyleKey = generator.GenerateApiKey();
+// Result: ghp_v1_dXJZaGVUQnYx_1pBbjFXeGU0dm5TMTNwUGdoVnRiZ1JKcGFVUmR0VjZBOUxJaDE
+```
+
+GitHub PATs typically look like `ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx` with a specific structure. By adjusting the options, you can create tokens that match this format while maintaining your own versioning and security requirements.
+
+### Key Structure Visualization
+
+The sample includes a helper to visualize the structure of generated keys:
 
 ```csharp
 static void VisualizeKeyStructure(string apiKey)
@@ -392,29 +597,6 @@ static void VisualizeKeyStructure(string apiKey)
         Console.WriteLine($"\nEstimated Entropy: ~{totalEntropy:F1} bits");
     }
 }
-```
-
-### Custom API Key Configurations
-
-The sample demonstrates various configurations, including this high-security example:
-
-```csharp
-// High-Security Configuration
-var secureOptions = new ApiKeyOptions
-{
-    Prefix = "secure",
-    Version = "v2",
-    SecretBytes = 48,  // More entropy
-    PrefixBytes = 8,
-    UniqueIdLength = 12,
-    PlusReplacement = '*',
-    SlashReplacement = '$',
-    Delimiter = '-'
-};
-
-var generator = new SecureApiKeyGenerator(secureOptions);
-var secureKey = generator.GenerateApiKey();
-// Result: secure-v2-a1b2c3d4e5f6-HjKl*nOpQr$tUvWxYz...
 ```
 
 ### Security Utilities Demo
