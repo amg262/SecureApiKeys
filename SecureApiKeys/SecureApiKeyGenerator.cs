@@ -91,15 +91,18 @@ public class SecureApiKeyGenerator
         if (parts[1] != _options.Version) return false;
         if (parts[2].Length != _options.UniqueIdLength) return false;
 
-        // Calculate expected length for the secret part
-        // For Base64, every 3 bytes becomes 4 characters
-        var expectedSecretLength = (int)Math.Ceiling(_options.SecretBytes * 4.0 / 3);
+        // Minimum length check for security
+        if (parts[3].Length < 16) return false;
 
-        // Account for removed padding
-        var paddingRemoved = expectedSecretLength % 4;
-        expectedSecretLength -= paddingRemoved;
+        // Generate a test sample to determine the expected length
+        var testBytes = new byte[_options.SecretBytes];
+        var expectedLength = Convert.ToBase64String(testBytes)
+            .Replace("+", _options.PlusReplacement.ToString())
+            .Replace("/", _options.SlashReplacement.ToString())
+            .TrimEnd('=')
+            .Length;
 
-        return parts[3].Length == expectedSecretLength;
+        return parts[3].Length == expectedLength;
     }
 
     /// <summary>
